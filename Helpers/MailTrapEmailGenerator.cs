@@ -13,7 +13,7 @@ namespace webapp2.Helpers
     public class MailTrapEmailGenerator
     {
      
-        public async Task<IActionResult> MailGenerator(MailTrapSendMail model)
+        public async Task MailGenerator(MailTrapSendMail model)
         {
             MailAddress to = new MailAddress(model.To);
             MailAddress from = new MailAddress("info@belcalies.com");
@@ -21,13 +21,26 @@ namespace webapp2.Helpers
             MailMessage message = new MailMessage(from, to);
             message.Subject = model.Header;
             message.Body = model.Body;
+
+            SmtpClient client = new SmtpClient("smtp.mailtrap.io", 2525)
+            {
+                Credentials = new NetworkCredential("b87f9e1fb4f16f", "90af90006f4e9f"),
+                EnableSsl = true
+            };
+
+            try
+            {
+                await client.SendMailAsync(message);
+                
+            }
+            catch(SmtpException ex)
+            {
+                Console.WriteLine(ex.ToString());
+                
+            }
         }
 
-        SmtpClient client = new SmtpClient("smtp.mailtrap.io", 2525)
-        {
-            Credentials = new NetworkCredential("b87f9e1fb4f16f", "90af90006f4e9f"),
-            EnableSsl = true
-        };
+        
           
     }
 }

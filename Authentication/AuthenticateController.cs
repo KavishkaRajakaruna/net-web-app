@@ -10,6 +10,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using webapp2.Helpers;
+using webapp2.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -118,7 +120,18 @@ namespace webapp2.Authentication
             var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
 
             // generate the url
-            
+            var confirmatinLink = Url.Action("ConfirmEmail", "Email", new { token, email = user.Email }, Request.Scheme);
+            MailTrapEmailGenerator emailhelper = new MailTrapEmailGenerator();
+
+            //Generate email attributes
+            MailTrapSendMail mailBody = new MailTrapSendMail();
+            mailBody.To = model.Email;
+            mailBody.Header = "Confirm Email address";
+            mailBody.Body = confirmatinLink;
+
+            //send the email
+            var emailResponse = emailhelper.MailGenerator(mailBody);
+;
             return StatusCode(StatusCodes.Status201Created, new Response { Status = "Success", Message = "User Creation successful" });
         }
 
