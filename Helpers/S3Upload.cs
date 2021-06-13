@@ -16,7 +16,7 @@ namespace webapp2.Helpers
         private static IAmazonS3 s3Client;
         
 
-        public static async Task<bool> UploadFileAsync(Stream FileStream, StoreS3Detail bucketName, string keyName)
+        public static async Task<bool> UploadFileAsync(Stream FileStream, string keyName)
         {
             try
             {

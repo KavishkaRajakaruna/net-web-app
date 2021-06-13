@@ -59,7 +59,7 @@ namespace webapp2.Controllers
 
                 if (memoryStream.Length < 2097152)
                 {
-                    await S3Upload.UploadFileAsync(memoryStream, details, folderPathWithName);
+                    await S3Upload.UploadFileAsync(memoryStream, folderPathWithName);
                     _context.Add(detailToDb);
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "File Upload success" });
                 }
