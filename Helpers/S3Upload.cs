@@ -30,7 +30,6 @@ namespace webapp2.Helpers
                 PutObjectResponse response = await s3Client.PutObjectAsync(request);
 
                 if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
-                    _context.Add(FileStream);
                     return true;
 
                 else
