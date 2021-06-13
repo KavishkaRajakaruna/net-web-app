@@ -1,5 +1,6 @@
 ﻿using Amazon;
 using Amazon.S3;
+using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,34 @@ namespace webapp2.Helpers
 {
     public class S3Upload
     {
-        private static readonly RegionEndpoint bucketRegion = RegionEndpoint.EUWest2;
         private static IAmazonS3 s3Client;
 
-        public static async Task UploadFileAsync(Stream FileStream, string bucketName, string keyName)
+
+        public static async Task<bool> UploadFileAsync(Stream FileStream, string bucketName, string keyName)
         {
-            s3Client = new AmazonS3Client(bucketRegion);
-            var fileTransferUtility = new TransferUtility(s3Client);
-            await fileTransferUtility.UploadAsync(FileStream, bucketName, keyName);
+            try
+            {
+                PutObjectRequest request = new PutObjectRequest()
+                {
+                    InputStream = FileStream,
+                    BucketName = bucketName,
+                    Key = keyName
+
+                };
+                PutObjectResponse response = await s3Client.PutObjectAsync(request);
+
+                if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                    return true;
+
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+
+            }
         }
     }
 }

@@ -34,6 +34,7 @@ namespace webapp2
         {
 
             services.AddControllers();
+            var appSettingsSection = Configuration.GetSection("ServiceConfiguration");
 
             // Add entity framwork
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("UsersConStr")));
