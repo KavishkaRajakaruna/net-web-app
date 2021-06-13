@@ -12,5 +12,9 @@ namespace webapp2.Models
         public int Type { get; set; }
         public int Level { get; set; }
         public string Url { get; set; }
+        public bool Deleted { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+
     }
 }

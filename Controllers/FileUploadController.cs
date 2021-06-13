@@ -54,7 +54,10 @@ namespace webapp2.Controllers
                     Name = fileUpload.Name,
                     Type = fileUpload.Type,
                     Level = fileUpload.Level,
-                    Url=folderPathWithName
+                    Url = folderPathWithName,
+                    Deleted = false,
+                    CreatedDate = DateTime.UtcNow,
+                    ModifiedDate=DateTime.UtcNow
                 };
 
                 if (memoryStream.Length < 2097152)
