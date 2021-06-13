@@ -7,28 +7,30 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using webapp2.Models;
 
 namespace webapp2.Helpers
 {
     public class S3Upload
     {
         private static IAmazonS3 s3Client;
+        
 
-
-        public static async Task<bool> UploadFileAsync(Stream FileStream, string bucketName, string keyName)
+        public static async Task<bool> UploadFileAsync(Stream FileStream, StoreS3Detail bucketName, string keyName)
         {
             try
             {
                 PutObjectRequest request = new PutObjectRequest()
                 {
                     InputStream = FileStream,
-                    BucketName = bucketName,
+                    BucketName = "Test",
                     Key = keyName
 
                 };
                 PutObjectResponse response = await s3Client.PutObjectAsync(request);
 
                 if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                    _context.Add(FileStream);
                     return true;
 
                 else

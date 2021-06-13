@@ -18,6 +18,12 @@ namespace webapp2.Controllers
     public class FileUploadController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _context;
+
+        public FileUploadController(ApplicationDbContext context)
+        {
+            _context = context
+        }
         
         
         [HttpPost]
@@ -27,7 +33,7 @@ namespace webapp2.Controllers
             using(var memoryStream = new MemoryStream())
             {
                 await fileUpload.FormFile.CopyToAsync(memoryStream);
-                StoreS3Details detials = new StoreS3Details
+                StoreS3Detail details = new StoreS3Detail
                 {
                     Name = fileUpload.Name,
                     Type = fileUpload.Type,
@@ -41,11 +47,20 @@ namespace webapp2.Controllers
                 ObjectName = ObjectName.Substring(ObjectName.Length - 16);
                 string folderPathWithName = (user.Id + "/" + ObjectName).ToString();
 
+                //Prepare data to upload to db
+                StoreS3Detail detailToDb = new StoreS3Detail
+                {
+                    Id = ObjectName,
+                    Name = fileUpload.Name,
+                    Type = fileUpload.Type,
+                    Level = fileUpload.Level,
+                    Url=folderPathWithName
+                };
 
                 if (memoryStream.Length < 2097152)
                 {
-                    await S3Upload.UploadFileAsync(memoryStream, "Bucket_Name", folderPathWithName);
-
+                    await S3Upload.UploadFileAsync(memoryStream, details, folderPathWithName);
+                    _context.Add(detailToDb);
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "File Upload success" });
                 }
                 else
