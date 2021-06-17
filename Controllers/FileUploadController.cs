@@ -64,6 +64,7 @@ namespace webapp2.Controllers
                 {
                     await S3Upload.UploadFileAsync(memoryStream, folderPathWithName);
                     _context.Add(detailToDb);
+                    _context.SaveChanges();
                     return StatusCode(StatusCodes.Status200OK, new Response { Status = "Success", Message = "File Upload success" });
                 }
                 else
