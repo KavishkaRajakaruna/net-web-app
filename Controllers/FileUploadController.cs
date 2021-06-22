@@ -18,17 +18,17 @@ namespace webapp2.Controllers
     public class FileUploadController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDbContext _context;
+        private readonly AbsoluteDbContext _context;
 
-        public FileUploadController(ApplicationDbContext context)
+        public FileUploadController(AbsoluteDbContext context)
         {
-            _context = context
+            _context = context;
         }
         
         
         [HttpPost]
         [Route("file/uploader")]
-        public async Task<IActionResult> FileUpload(S3FileUpload fileUpload)
+        public async Task<IActionResult> FileUpload([FromForm] S3FileUpload fileUpload)
         {
             using(var memoryStream = new MemoryStream())
             {

@@ -14,7 +14,8 @@ namespace webapp2.Models
         {
 
         }
-        public DbSet<StoreS3Detail> storeS3Details { get; set; }
+
+         
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

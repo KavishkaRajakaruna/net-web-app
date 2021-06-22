@@ -38,6 +38,7 @@ namespace webapp2
 
             // Add entity framwork
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("UsersConStr")));
+            services.AddDbContext<AbsoluteDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("AppConStr")));
 
             // For Identity
             services.AddIdentity<ApplicationUser, IdentityRole>()
