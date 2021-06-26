@@ -62,8 +62,8 @@ namespace webapp2
                     {
                         ValidateIssuer = true,
                         ValidateAudience = true,
-                        ValidAudience = Configuration["JWT:ValidAudience"],
-                        ValidIssuer = Configuration["JWT:ValidIssuer"],
+                        ValidAudience = Configuration["JWT:ValidateAudience"],
+                        ValidIssuer = Configuration["JWT:ValidateIssuer"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                     };
                 });
@@ -85,7 +85,9 @@ namespace webapp2
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

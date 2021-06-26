@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace webapp2.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase

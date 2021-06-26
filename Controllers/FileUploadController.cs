@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,9 +13,10 @@ using webapp2.Models;
 
 namespace webapp2.Controllers
 {
-    
+    [Authorize]
     [Route("api/")]
     [ApiController]
+    
     public class FileUploadController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -28,6 +30,7 @@ namespace webapp2.Controllers
         
         [HttpPost]
         [Route("file/uploader")]
+        
         public async Task<IActionResult> FileUpload([FromForm] S3FileUpload fileUpload)
         {
             using(var memoryStream = new MemoryStream())
@@ -41,11 +44,11 @@ namespace webapp2.Controllers
                 };
 
                 //get current login user
-                ApplicationUser user = await GetCurrentUserAsync();
+                var user = HttpContext.User.Identity.;
                 Guid obj = Guid.NewGuid();
                 string ObjectName = obj.ToString();
                 ObjectName = ObjectName.Substring(ObjectName.Length - 16);
-                string folderPathWithName = (user.Id + "/" + ObjectName).ToString();
+                string folderPathWithName = (user.User + "/" + ObjectName).ToString();
 
                 //Prepare data to upload to db
                 StoreS3Detail detailToDb = new StoreS3Detail
