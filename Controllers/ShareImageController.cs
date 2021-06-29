@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,12 @@ namespace webapp2.Controllers
     [ApiController]
     public class ShareImageController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
+
+        public ShareImageController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         // GET: api/<ShareImageController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -19,10 +27,14 @@ namespace webapp2.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<ShareImageController>/5
-        [HttpGet("{id}")]
+        // GET api/<ShareImageController>/CompanyId
+        [HttpGet("{UserId}")]
         public string Get(int id)
         {
+            var sql = "INSET INTO ShareImages (ProviderId, ImageId, ExpireDate, Expired) values (@1,@2,@3,@4);";
+            using var con = new NpgsqlConnection(_configuration["AppConnStr"]);
+
+
             return "value";
         }
 
