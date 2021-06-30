@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace webapp2.Models
 {
-    public class ShareImages
+    public class ShareImage
     {
         public int Id { get; set; }
         public string ProviderId { get; set; }
@@ -14,5 +14,7 @@ namespace webapp2.Models
         public DateTime? ExpireDate { get; set; }
         public bool Expired { get; set; }
         public string UserId { get; set; }
+
+        public StoreS3Detail storeS3Detail { get; set; }
     }
 }

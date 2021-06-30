@@ -1,4 +1,4 @@
-﻿ using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -44,11 +44,11 @@ namespace webapp2.Controllers
                 };
 
                 //get current login user
-                var user = HttpContext.User.Identity.;
+                var user = HttpContext.User.Identity.ToString();
                 Guid obj = Guid.NewGuid();
                 string ObjectName = obj.ToString();
                 ObjectName = ObjectName.Substring(ObjectName.Length - 16);
-                string folderPathWithName = (user.User + "/" + ObjectName).ToString();
+                string folderPathWithName = (user + "/" + ObjectName).ToString();
 
                 //Prepare data to upload to db
                 StoreS3Detail detailToDb = new StoreS3Detail
