@@ -67,6 +67,15 @@ namespace webapp2.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            var share = new ShareImage() {Id=id, Expired=false } ;
+            share.Expired = true;
+
+            using (var context = new AbsoluteDbContext())
+            {
+                context.ShareImages.Update(share);
+                context.SaveChanges();
+            }
+
         }
     }
 }
