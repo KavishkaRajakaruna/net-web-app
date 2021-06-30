@@ -13,5 +13,6 @@ namespace webapp2.Models
         public DateTime? SharedDate { get; set; }
         public DateTime? ExpireDate { get; set; }
         public bool Expired { get; set; }
-
+        public string UserId { get; set; }
+    }
 }

@@ -31,17 +31,15 @@ namespace webapp2.Controllers
         [HttpGet("{UserId}")]
         public string Get(int id)
         {
-            var sql = "INSET INTO ShareImages (ProviderId, ImageId, ExpireDate, Expired) values (@1,@2,@3,@4);";
-            using var con = new NpgsqlConnection(_configuration["AppConnStr"]);
-
-
+           
             return "value";
         }
 
         // POST api/<ShareImageController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Models.ShareImageInboundDTO ShareInfo)
         {
+
         }
 
         // PUT api/<ShareImageController>/5
