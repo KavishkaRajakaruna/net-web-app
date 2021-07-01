@@ -45,13 +45,15 @@ namespace webapp2.Controllers
                 };
 
                 //get current login user
+
                 var username = HttpContext.User.Identity.Name.ToString();
-                
                 ApplicationUser user = await _userManager.FindByEmailAsync(username);
+
                 Guid obj = Guid.NewGuid();
                 string ObjectName = obj.ToString();
                 ObjectName = ObjectName.Substring(ObjectName.Length - 16);
                 string folderPathWithName = (user.Id + "/" + ObjectName).ToString();
+
 
                 //Prepare data to upload to db
                 StoreS3Detail detailToDb = new StoreS3Detail
