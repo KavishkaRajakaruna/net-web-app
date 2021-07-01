@@ -13,7 +13,7 @@ using webapp2.Models;
 
 namespace webapp2.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="User")]
     [Route("api/")]
     [ApiController]
     
@@ -22,8 +22,9 @@ namespace webapp2.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly AbsoluteDbContext _context;
 
-        public FileUploadController(AbsoluteDbContext context)
+        public FileUploadController(AbsoluteDbContext context , UserManager<ApplicationUser> userManager)
         {
+           _userManager = userManager;
             _context = context;
         }
         
@@ -44,11 +45,13 @@ namespace webapp2.Controllers
                 };
 
                 //get current login user
-                var user = HttpContext.User.Identity.;
+                var username = HttpContext.User.Identity.Name.ToString();
+                
+                ApplicationUser user = await _userManager.FindByEmailAsync(username);
                 Guid obj = Guid.NewGuid();
                 string ObjectName = obj.ToString();
                 ObjectName = ObjectName.Substring(ObjectName.Length - 16);
-                string folderPathWithName = (user.User + "/" + ObjectName).ToString();
+                string folderPathWithName = (user.Id + "/" + ObjectName).ToString();
 
                 //Prepare data to upload to db
                 StoreS3Detail detailToDb = new StoreS3Detail

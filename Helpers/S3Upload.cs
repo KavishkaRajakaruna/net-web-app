@@ -14,19 +14,28 @@ namespace webapp2.Helpers
     public class S3Upload
     {
         private static IAmazonS3 s3Client;
+
+        public S3Upload(IAmazonS3 S3Client)
+        {
+            s3Client = S3Client;
+        }
         
 
         public static async Task<bool> UploadFileAsync(Stream FileStream, string keyName)
+                        
         {
+            var request = new PutObjectRequest
+            {
+                InputStream = FileStream,
+                BucketName = "Test",
+                Key = keyName,
+                CannedACL = S3CannedACL.PublicRead
+
+            };
+
             try
             {
-                PutObjectRequest request = new PutObjectRequest()
-                {
-                    InputStream = FileStream,
-                    BucketName = "Test",
-                    Key = keyName
 
-                };
                 PutObjectResponse response = await s3Client.PutObjectAsync(request);
 
                 if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
