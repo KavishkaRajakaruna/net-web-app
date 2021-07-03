@@ -32,8 +32,15 @@ namespace webapp2.Controllers
         [HttpGet("{UserId}")]
         public string Get(int id)
         {
-           
-            return "value";
+            using (var context = new AbsoluteDbContext())
+            {
+                var images = context.ShareImages
+                    .Where(s => s.ProviderId == id.ToString() &&
+                    s.Expired != true).ToList();
+               
+            }
+            
+                return "value";
         }
 
         // POST api/<ShareImageController>
